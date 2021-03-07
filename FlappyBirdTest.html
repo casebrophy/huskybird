@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <style>
 canvas {
     border:1px solid #d3d3d3;
@@ -51,6 +51,7 @@ var myGamePiece;
 var myObstacles = [];
 var myScore;
 var myHighScore;
+var spacePressed;
 
 function startGame() {
     myGamePiece = new component(30, 30, "yellow", 10, 120);
@@ -59,11 +60,26 @@ function startGame() {
     myGameArea.start();
 }
 
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+    if(e.keyCode === 32){
+        spacePressed = true;
+    }
+}
+function keyUpHandler(e) {
+    if(e.keyCode === 32){
+        spacePressed = false;
+    }
+}
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = 480;
         this.canvas.height = 270;
+        this.canvas.offsetTop = 50;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
@@ -86,6 +102,14 @@ function component(width, height, color, x, y, type) {
     this.gravity = 0;
     this.gravitySpeed = 0;
     this.update = function() {
+        if(spacePressed)
+        {
+            accelerate(-.4)
+        }
+        if(!spacePressed)
+        {
+            accelerate(.1)
+        }
         ctx = myGameArea.context;
         if (this.type == "text") {
             ctx.font = this.width + " " + this.height;
