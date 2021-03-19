@@ -24,21 +24,10 @@ canvas {
 .button1 {
   background-color: white; 
   color: black; 
-  border: 2px solid #00CC11;
-}
-
-.button1:hover {
-  background-color: #00CC11;
-  color: white;
-}
-
-.button2 {
-  background-color: white; 
-  color: black; 
   border: 2px solid #EE0000;
 }
 
-.button2:hover {
+.button1:hover {
   background-color: #EE0000;
   color: white;
 }
@@ -124,21 +113,11 @@ function component(width, height, color, x, y, type) {
         this.gravitySpeed += this.gravity;
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
-        this.hitBorder();
     }
-    this.hitBorder = function() {
-        var bottom = myGameArea.canvas.height - this.height;
-        var top = 0
-        if (this.y > bottom) {
-            this.y = bottom;
-            this.gravitySpeed = 0;
-        }
-        if (this.y < top) {
-            this.y = top;
-            this.gravitySpeed = 0;
-        }
-    }
+    
     this.crashWith = function(otherobj) {
+		var bottom = myGameArea.canvas.height - this.height;
+        var top = 0
         var myleft = this.x;
         var myright = this.x + (this.width);
         var mytop = this.y;
@@ -148,6 +127,9 @@ function component(width, height, color, x, y, type) {
         var othertop = otherobj.y;
         var otherbottom = otherobj.y + (otherobj.height);
         var crash = true;
+		if(this.y > bottom || mytop < top){
+			return true;
+		}
         if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
             crash = false;
         }
@@ -162,6 +144,8 @@ function updateGameArea() {
             return;
         } 
     }
+	
+	
     myGameArea.clear();
     myGameArea.frameNo += 1;
     if (myGameArea.frameNo == 1 || everyinterval(150)) {
@@ -197,7 +181,7 @@ function accelerate(n) {
 }
 </script>
 <br>
-<button class="button button1" onmousedown="accelerate(-0.4)" onmouseup="accelerate(0.10)">Fly</button>
-<button class="button button2" onClick="window.location.reload();">Restart</button>
+<p>Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds</p>
+<button class="button button1" onClick="window.location.reload();">Restart</button>
 </body>
 </html>
