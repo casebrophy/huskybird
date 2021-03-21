@@ -3,6 +3,7 @@
 <head>
     <meta name="viewport"/>
     <title>Flappy Bird</title>
+    <! The css of game area is important as position absolute sets the canvas to start in the top left corener of the screen>
     <style>
         #gameArea {
             position: absolute;
@@ -20,6 +21,7 @@
     </style>
 </head>
 <body>
+    <! The divs allow the css and javascript to reszie the canvas>
     <div id = "gameArea">
 
         <canvas id = "gameCanvas"></canvas>
@@ -54,7 +56,7 @@
                     bricks[c][r] = {x: 0, y: 0, status: 1};
                 }
             }
-
+            //this is the resize function
             resizeGame();
             function resizeGame() {
                 var gameArea = document.getElementById('gameArea');
@@ -63,6 +65,7 @@
                 var newHeight = window.innerHeight - 20;
                 var newWidthToHeight = newWidth / newHeight;
 
+                //keeps the game's aspect ratio
                 if (newWidthToHeight > widthToHeight) {
                     newWidth = newHeight * widthToHeight;
                     gameArea.style.height = newHeight + 'px';
@@ -72,13 +75,13 @@
                     gameArea.style.width = newWidth + 'px';
                     gameArea.style.height = newHeight + 'px';
                 }
-
+                //keeps the gameArea in the center of the sceen when resizing
                 gameArea.style.marginLeft = (-newWidth / 2) + 'px';
 
                 gameCanvas.width = newWidth;
                 gameCanvas.height = newHeight;
             }
-
+            //listens for window resize even
             window.addEventListener('resize', resizeGame, false);
             window.addEventListener('orientationchange', resizeGame, false);
             document.addEventListener("keydown", keyDownHandler, false);
