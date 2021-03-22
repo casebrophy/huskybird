@@ -22,9 +22,17 @@ canvas {
 }
 
 .button1 {
-  background-color: white; 
-  color: black; 
-  border: 2px solid #EE0000;
+  background-color: #FFFFE0;
+  border-radius: 40px;
+  color: black;
+  border: 4px solid black;
+  padding: 20px;
+  text-align:center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  position: relative; left:250px;
 }
 
 .button1:hover {
@@ -43,7 +51,7 @@ var myHighScore;
 var spacePressed;
 
 function startGame() {
-    myGamePiece = new component(30, 30, "yellow", 10, 120);
+    myGamePiece = new component(30, 30, "black", 10, 120);
     myGamePiece.gravity = 0.10;
     myScore = new component("12px", "Verdana", "black", 350, 25, "text");
     myGameArea.start();
@@ -66,8 +74,9 @@ function keyUpHandler(e) {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
+	this.canvas.style = "border:3px solid black;"
+        this.canvas.width = 600;
+        this.canvas.height = 470;
         this.canvas.offsetTop = 50;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -156,8 +165,8 @@ function updateGameArea() {
         minGap = 90;
         maxGap = 150;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(40, height, "green", x, 0));
-        myObstacles.push(new component(40, x - height - gap, "green", x, height + gap));
+        myObstacles.push(new component(70, height, "yellow", x, 0));
+        myObstacles.push(new component(70, x - height - gap, "yellow", x, height + gap));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1.5;
