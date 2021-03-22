@@ -100,7 +100,7 @@ function component(width, height, color, x, y, type) {
             accelerate(.1)
         }
         ctx = myGameArea.context;
-        if (this.type == "text") {
+        if (this.type === "text") {
             ctx.font = this.width + " " + this.height;
             ctx.fillStyle = color;
             ctx.fillText(this.text, this.x, this.y);
@@ -148,7 +148,7 @@ function updateGameArea() {
 	
     myGameArea.clear();
     myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+    if (myGameArea.frameNo === 1 || everyinterval(150)) {
         x = myGameArea.canvas.width;
         minHeight = 45;
         maxHeight = 225;
@@ -170,7 +170,7 @@ function updateGameArea() {
 }
 
 function everyinterval(n) {
-    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    if ((myGameArea.frameNo / n) % 1 === 0) {return true;}
     return false;
 }
 
