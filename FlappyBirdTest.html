@@ -41,11 +41,16 @@ var myObstacles = [];
 var myScore;
 var myHighScore;
 var spacePressed;
+var jumpSound;
+var deathSound;
 
 function startGame() {
     myGamePiece = new component(30, 30, "yellow", 10, 120);
     myGamePiece.gravity = 0.10;
+	myGamePiece.life = 1;
     myScore = new component("12px", "Verdana", "black", 350, 25, "text");
+	jumpSound = new sound("bark.mp3");
+	deathSound = new sound("bonk.mp3");
     myGameArea.start();
 }
 
@@ -94,6 +99,7 @@ function component(width, height, color, x, y, type) {
         if(spacePressed)
         {
             accelerate(-.4)
+			jumpSound.play();
         }
         if(!spacePressed)
         {
@@ -141,6 +147,10 @@ function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
+			if (myGamePiece.life == 1) {
+				myGamePiece.life = 0;
+				deathSound.play();
+			}
             return;
         } 
     }
@@ -169,6 +179,21 @@ function updateGameArea() {
     myGamePiece.update();
 }
 
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
+}
+
 function everyinterval(n) {
     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
     return false;
@@ -181,7 +206,7 @@ function accelerate(n) {
 }
 </script>
 <br>
-<p>Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds</p>
+<p>Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds!</p>
 <button class="button button1" onClick="window.location.reload();">Restart</button>
 </body>
 </html>
