@@ -32,7 +32,7 @@ canvas {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  position: relative; left:250px;
+  position: relative; left:210px;
 }
 
 .button1:hover {
@@ -59,7 +59,8 @@ function startGame() {
     myGamePiece = new component(30, 30, "black", 10, 120);
     myGamePiece.gravity = 0.10;
 	myGamePiece.life = 1;
-    myScore = new component("12px", "Verdana", "black", 350, 25, "text");
+    myScore = new component("12px", "Verdana", "black", 500, 25, "text");
+	myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
 	jumpSound = new sound("bark.mp3");
 	deathSound = new sound("bonk.mp3");
     myGameArea.start();
@@ -162,6 +163,11 @@ function updateGameArea() {
 			if (myGamePiece.life == 1) {
 				myGamePiece.life = 0;
 				deathSound.play();
+				myMessage.text="You crashed! Press SPACE to try again!"
+				myMessage.update();
+			}
+			if (spacePressed) {
+				window.location.reload();
 			}
             return;
         } 
@@ -233,8 +239,9 @@ function accelerate(n) {
 <br>
 
 <p style = "font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;">
-  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds</p>
+  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds!</p>
 
+<button class="button button1" onClick="window.location='StartGame.html';">Back</button>
 <button class="button button1" onClick="window.location.reload();">Restart</button>
 </body>
 </html>
