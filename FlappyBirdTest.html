@@ -118,7 +118,7 @@ function component(width, height, color, x, y, type) {
         {
             accelerate(.1)
         }
-        var ctx = myGameArea.context;
+        ctx = myGameArea.context;
         if (this.type === "text") {
             ctx.font = this.width + " " + this.height;
             ctx.fillStyle = color;
