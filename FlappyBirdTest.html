@@ -118,7 +118,7 @@ function component(width, height, color, x, y, type) {
         {
             accelerate(.1)
         }
-        ctx = myGameArea.context;
+        var ctx = myGameArea.context;
         if (this.type === "text") {
             ctx.font = this.width + " " + this.height;
             ctx.fillStyle = color;
@@ -176,8 +176,6 @@ function updateGameArea() {
     for (i = 0; i < scoreObstacles.length; i++) {
         if (myGamePiece.crashWith(scoreObstacles[i])) {
           score++;
-          score++;
-          score--;
         }
     }
 	

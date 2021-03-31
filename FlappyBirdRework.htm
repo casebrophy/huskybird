@@ -41,7 +41,7 @@
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  position: relative; left:250px;
+  position: relative; left:210px;
 }
 
 .button1:hover {
@@ -57,17 +57,22 @@
 
 var myGamePiece;
 var myObstacles = [];
+var scoreObstacles = [];
 var myScore;
 var myHighScore;
 var spacePressed;
 var jumpSound;
 var deathSound;
+var score = 0;
+
 
 function startGame() {
+
     myGamePiece = new component(30, 30, "black", 10, 120);
     myGamePiece.gravity = 0.10;
 	myGamePiece.life = 1;
-    myScore = new component("12px", "Verdana", "black", 350, 25, "text");
+    myScore = new component("12px", "Verdana", "black", 500, 25, "text");
+	myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
 	jumpSound = new sound("bark.mp3");
 	deathSound = new sound("bonk.mp3");
     myGameArea.start();
@@ -94,20 +99,20 @@ function keyUpHandler(e) {
 var myGameArea = {
     canvas : document.getElementById("canvas"),
     gameArea: document.getElementById("gameArea"),
+    ctx : this.canvas.getContext("2d"),
     start : function() {
         this.canvas.style = "border:3px solid black;";
         this.resize();
-        this.canvas.offsetTop = 50;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.context = this.ctx;
         this.frameNo = 0;
         updateGameArea();
     },
     resize : function ()
     {
-        var widthToHeight = 16 / 9;
-        var newWidth = window.innerWidth - window.innerWidth * .03;
-        var newHeight = window.innerHeight - window.innerHeight * .03;
+        this.context = this.ctx;
+        var widthToHeight = 600 / 470;
+        var newWidth = window.innerWidth - window.innerWidth * .25;
+        var newHeight = window.innerHeight - window.innerHeight * .25;
         var newWidthToHeight = newWidth / newHeight;
 
         //keeps the game's aspect ratio
@@ -127,10 +132,10 @@ var myGameArea = {
         this.canvas.height = newHeight;
 
 
-        var scaleFactorX = this.canvas.width/480
-        var scaleFactorY = this.canvas.height/270
+        var scaleFactorX = this.canvas.width/600
+        var scaleFactorY = this.canvas.height/470
 
-        ctx.scale(scaleFactorX, scaleFactorY);
+        this.ctx.scale(scaleFactorX, scaleFactorY);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -200,7 +205,6 @@ function component(width, height, color, x, y, type) {
 }
 
 function updateGameArea() {
-    //listens for window resize even
 
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -284,8 +288,13 @@ function accelerate(n) {
 }
         </script>
 
+<br>
 
+<p style = "font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;">
+  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds!</p>
+
+<button class="button button1" onClick="window.location='StartGame.html';">Back</button>
+<button class="button button1" onClick="window.location.reload();">Restart</button>
     </div>
-
 </body>
 </html>
