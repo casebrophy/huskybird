@@ -32,7 +32,7 @@ canvas {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  position: relative; left:250px;
+  position: relative; left:210px;
 }
 
 .button1:hover {
@@ -42,21 +42,25 @@ canvas {
 </style>
 </head>
 <body onload="startGame()">
+
 <script>
 
 var myGamePiece;
 var myObstacles = [];
+var scoreObstacles = [];
 var myScore;
 var myHighScore;
 var spacePressed;
 var jumpSound;
 var deathSound;
+var score = 0;
 
 function startGame() {
     myGamePiece = new component(30, 30, "black", 10, 120);
     myGamePiece.gravity = 0.10;
 	myGamePiece.life = 1;
-    myScore = new component("12px", "Verdana", "black", 350, 25, "text");
+    myScore = new component("12px", "Verdana", "black", 500, 25, "text");
+	myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
 	jumpSound = new sound("bark.mp3");
 	deathSound = new sound("bonk.mp3");
     myGameArea.start();
@@ -159,9 +163,20 @@ function updateGameArea() {
 			if (myGamePiece.life == 1) {
 				myGamePiece.life = 0;
 				deathSound.play();
+				myMessage.text="You crashed! Press SPACE to try again!"
+				myMessage.update();
+			}
+			if (spacePressed) {
+				window.location.reload();
 			}
             return;
         } 
+    }
+
+    for (i = 0; i < scoreObstacles.length; i++) {
+        if (myGamePiece.crashWith(scoreObstacles[i])) {
+          score++;
+        }
     }
 	
 	
@@ -177,12 +192,17 @@ function updateGameArea() {
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         myObstacles.push(new component(70, height, "yellow", x, 0));
         myObstacles.push(new component(70, x - height - gap, "yellow", x, height + gap));
+        scoreObstacles.push(new component(70, gap, "#ffffff00", x, height));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1.5;
         myObstacles[i].update();
     }
-    myScore.text="SCORE: " + myGameArea.frameNo;
+    for(i = 0; i, i <scoreObstacles.length; i++){
+      scoreObstacles[i].x += -1.5;
+      scoreObstacles[i].update();
+   }
+    myScore.text="SCORE: " + Math.round(score/67);
     myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
@@ -217,8 +237,9 @@ function accelerate(n) {
 <br>
 
 <p style = "font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;">
-  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds</p>
+  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds!</p>
 
+<button class="button button1" onClick="window.location='StartGame.html';">Back</button>
 <button class="button button1" onClick="window.location.reload();">Restart</button>
 </body>
 </html>
