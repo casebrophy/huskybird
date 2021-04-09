@@ -77,14 +77,7 @@
 
         function startGame() {
             myGameArea.resize();
-
-            huskySprite = new Image();
-            huskySprite.src = 'finalHusky';
-
-            // WAIT TILL IMAGE IS LOADED.
-
-            myGamePiece = new component(30 * sfX, 30 * sfY, "black", 10 * sfX, 120 * sfY);
-
+            myGamePiece = new component(50 * sfX, 50 * sfY, "finalHusky.png", 10 * sfX, 120 * sfY, "image");
             myGamePiece.gravity = 0.10;
             myGamePiece.life = 1;
             myScore = new component("12px", "Verdana", "black", 500, 25, "text");
@@ -170,8 +163,9 @@
             this.y = y;
             this.gravity = 0;
             this.gravitySpeed = 0;
-            if (this.type === "image") {
-                ctx.drawImage(huskySprite, this.x, this.y);
+            if (type === "image") {
+                this.image = new Image();
+                this.image.src = color;
             }
             this.update = function () {
                 if (spacePressed) {
@@ -188,7 +182,14 @@
                     ctx.font = this.width * sfX + " " + this.height * sfY;
                     ctx.fillStyle = color;
                     ctx.fillText(this.text, this.x * sfX, this.y * sfY);
-                } else {
+                }
+                else if (type === "image") {
+                    ctx.drawImage(this.image,
+                        this.x,
+                        this.y,
+                        this.width, this.height);
+                }
+                else {
                     ctx.fillStyle = color;
                     ctx.fillRect(this.x, this.y, this.width, this.height);
                 }
