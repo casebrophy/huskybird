@@ -32,7 +32,7 @@ canvas {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  position: relative; left:210px;
+  position: relative;
 }
 
 .button1:hover {
@@ -40,10 +40,12 @@ canvas {
   color: white;
 }
 </style>
+
 </head>
 <body onload="startGame()">
 
-<script>
+<script src="jquery.js"></script>
+<script type="text/javascript">
 
 var myGamePiece;
 var myObstacles = [];
@@ -54,13 +56,29 @@ var spacePressed;
 var jumpSound;
 var deathSound;
 var score = 0;
+var highscore = 0;
+var myName;
+var name = "";
+var nameQueued = "";
+
+function restartGame() {
+	myGameArea.clear();
+	myGamePiece = {};
+	myObstacles = [];
+	scoreObstacles = [];
+	score = 0;
+	name = nameQueued;
+	startGame();
+}
 
 function startGame() {
     myGamePiece = new component(30, 30, "black", 10, 120);
     myGamePiece.gravity = 0.10;
 	myGamePiece.life = 1;
     myScore = new component("12px", "Verdana", "black", 500, 25, "text");
+	myHighScore = new component("12px", "Verdana", "black", 463.5, 40, "text");
 	myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
+	myName = new component("12px", "Verdana", "black", 25, 25, "text");
 	jumpSound = new sound("bark.mp3");
 	deathSound = new sound("bonk.mp3");
     myGameArea.start();
@@ -80,6 +98,10 @@ function keyUpHandler(e) {
     }
 }
 
+function setName() {
+	nameQueued = document.getElementById("name").value;
+}
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -94,7 +116,11 @@ var myGameArea = {
         },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
+    },
+	stop : function() {
+		clearInterval(this.interval);
+        this.pause = true;
+	}
 }
 
 function component(width, height, color, x, y, type) {
@@ -167,7 +193,7 @@ function updateGameArea() {
 				myMessage.update();
 			}
 			if (spacePressed) {
-				window.location.reload();
+				restartGame();
 			}
             return;
         } 
@@ -204,6 +230,13 @@ function updateGameArea() {
    }
     myScore.text="SCORE: " + Math.round(score/67);
     myScore.update();
+	if (score >= highscore) {
+		highscore = score;
+	}
+	myHighScore.text="HIGH SCORE: " + Math.round(highscore/67);;
+	myHighScore.update();
+	myName.text = "Playing as: " + name
+	myName.update();
     myGamePiece.newPos();
     myGamePiece.update();
 }
@@ -235,11 +268,10 @@ function accelerate(n) {
 }
 </script>
 <br>
-
 <p style = "font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;">
-  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds!</p>
-
+  Press <b>SPACE</b> to jump!  Avoid the obstacles and don't go out of bounds!
+  <br>Name: <input type="text" id="name" autocomplete="off">
+  <button onclick="setName()">Enter</button></p>
 <button class="button button1" onClick="window.location='StartGame.html';">Back</button>
-<button class="button button1" onClick="window.location.reload();">Restart</button>
 </body>
 </html>
