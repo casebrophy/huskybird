@@ -65,6 +65,7 @@
         var jumpSound;
         var deathSound;
         var score = 0;
+		var highscore = 0;
         var sfX;
         var sfY;
         var huskySprite;
@@ -74,7 +75,16 @@
                 e.preventDefault();
             }
         });
-
+		
+		function restartGame() {
+			myGameArea.clear();
+			myGamePiece = {};
+			myObstacles = [];
+			scoreObstacles = [];
+			score = 0;
+			startGame();
+		}
+		
         function startGame() {
             myGameArea.resize();
 
@@ -88,10 +98,11 @@
             myGamePiece.gravity = 0.10;
             myGamePiece.life = 1;
             myScore = new component("12px", "Verdana", "black", 500, 25, "text");
+			myHighScore = new component("12px", "Verdana", "black", 477, 40, "text");
             myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
             jumpSound = new sound("bark.mp3");
             deathSound = new sound("bonk.mp3");
-
+			
             myGameArea.start();
         }
 
@@ -233,7 +244,7 @@
                         myMessage.update();
                     }
                     if (spacePressed) {
-                        window.location.reload();
+                        restartGame();
                     }
                     return;
                 }
@@ -241,7 +252,7 @@
 
             for (i = 0; i < scoreObstacles.length; i++) {
                 if (myGamePiece.crashWith(scoreObstacles[i])) {
-                    score++;
+                    score++; 
                 }
             }
 
@@ -270,6 +281,11 @@
             }
             myScore.text = "SCORE: " + Math.round(score / (67 * sfX));
             myScore.update();
+			if (score >= highscore) {
+				highscore = score;
+			}
+			myHighScore.text="HIGH SCORE: " + Math.round(highscore/ (67 * sfX));;
+			myHighScore.update();
             myGamePiece.newPos();
             myGamePiece.update();
         }
@@ -314,7 +330,6 @@
         Press <b>SPACE</b> to jump! Avoid the obstacles and don't go out of bounds!</p>
 
     <button class="button button1" onClick="window.location='StartGameRsize.html';">Back</button>
-    <button class="button button1" onClick="window.location.reload();">Restart</button>
 </div>
 </body>
 </html>
