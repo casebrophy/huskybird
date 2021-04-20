@@ -77,13 +77,20 @@
 
         function startGame() {
             myGameArea.resize();
-            myGamePiece = new component(50 * sfX, 40 * sfY, "Huskypup.png", 25 * sfX, 120 * sfY, "image");
+
+            huskySprite = new Image();
+            huskySprite.src = 'finalHusky';
+
+            // WAIT TILL IMAGE IS LOADED.
+
+            myGamePiece = new component(30 * sfX, 30 * sfY, "black", 10 * sfX, 120 * sfY);
+
             myGamePiece.gravity = 0.10;
             myGamePiece.life = 1;
             myScore = new component("12px", "Verdana", "black", 500, 25, "text");
             myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
             jumpSound = new sound("bark.mp3");
-            deathSound = new sound("editedBonk.wav");
+            deathSound = new sound("bonk.mp3");
 
             myGameArea.start();
         }
@@ -163,9 +170,8 @@
             this.y = y;
             this.gravity = 0;
             this.gravitySpeed = 0;
-            if (type === "image") {
-                this.image = new Image();
-                this.image.src = color;
+            if (this.type === "image") {
+                ctx.drawImage(huskySprite, this.x, this.y);
             }
             this.update = function () {
                 if (spacePressed) {
@@ -182,14 +188,7 @@
                     ctx.font = this.width * sfX + " " + this.height * sfY;
                     ctx.fillStyle = color;
                     ctx.fillText(this.text, this.x * sfX, this.y * sfY);
-                }
-                else if (type === "image") {
-                    ctx.drawImage(this.image,
-                        this.x,
-                        this.y,
-                        this.width, this.height);
-                }
-                else {
+                } else {
                     ctx.fillStyle = color;
                     ctx.fillRect(this.x, this.y, this.width, this.height);
                 }
@@ -314,7 +313,7 @@
     <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;">
         Press <b>SPACE</b> to jump! Avoid the obstacles and don't go out of bounds!</p>
 
-    <button class="button button1" onClick="window.location='StartGameResize.html';">Back</button>
+    <button class="button button1" onClick="window.location='StartGameRsize.html';">Back</button>
     <button class="button button1" onClick="window.location.reload();">Restart</button>
 </div>
 </body>

@@ -1,10 +1,7 @@
+<!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<picture>
-<img style="position:absolute; top: -50px; left: 80px; width:600px;"
-src="title.png">
-</picture>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <style>
 canvas {
     border:1px solid #d3d3d3;
@@ -13,8 +10,28 @@ canvas {
 #grad1 {
   height: 300px;
   background-color: grey; 
-  background-image: linear-gradient(to bottom  , grey, white);
+  background-image: linear-gradient(to bottom, grey, white);
 }
+
+
+img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width:50%;
+}
+
+.divImg{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+
+.divSect{   
+	text-align: center;
+}
+
 .button {
   border: none;
   color: white;
@@ -39,7 +56,7 @@ canvas {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  position: relative; left:190px;
+  position: relative; left:auto;
 }
     
 .button2 {
@@ -53,20 +70,24 @@ canvas {
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  position: relative; top: 200px;left:200px;
+  position: relative; left:auto;
 }    
 </style>
 </head>
 <body>
-  <div id="grad1"></div>
+  <div id="grad1">
+	<div class="divImg">
+		<picture>
+		<img style="position:relative; text-align:center" src="cutdownTitle.png">
+		</picture>
+	</div>
+	
+  </div>
 </body>
-<<<<<<< HEAD
-<button class="button button1" onClick="window.location='FlappyBirdTest.html';">Start</button>
-<button class="button button1" onClick="window.location='Leaderboard.html';">Leaderboard</button>
-=======
-<button class="button button1" onClick="window.location='HuskyBird.html';">Start</button>
-<button class="button button2" onClick="window.location='Leaderboard.html';">Leaderboard</button>
->>>>>>> c2d3a1b7c0a48d2f018cd92880ac7f8e62fa8870
+	<div class="divSect">
+		<button class="button button1" onClick="window.location='FlappyBirdRework.htm';">Start Game</button>
+		<button class="button button2" onClick="window.location='Leaderboard.html';">Leaderboard</button>
+	</div>
 
 
 
