@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,8 +57,8 @@
 <body onload="startGame()">
 <div id="gameArea">
     <canvas id="canvas"></canvas>
-    <script>
-
+    <script src="jquery.js"></script>
+    <script type="text/javascript">
         var myGamePiece;
         var myObstacles = [];
         var scoreObstacles = [];
@@ -66,6 +69,9 @@
         var deathSound;
         var score = 0;
 		var highscore = 0;
+        var myName;
+        var name = "";
+        var nameQueued = "";
         var sfX;
         var sfY;
         var huskySprite;
@@ -82,26 +88,21 @@
 			myObstacles = [];
 			scoreObstacles = [];
 			score = 0;
+	        name = nameQueued;
 			startGame();
 		}
 		
         function startGame() {
             myGameArea.resize();
-
-            huskySprite = new Image();
-            huskySprite.src = 'finalHusky';
-
-            // WAIT TILL IMAGE IS LOADED.
-
-            myGamePiece = new component(30 * sfX, 30 * sfY, "black", 10 * sfX, 120 * sfY);
-
+            myGamePiece = new component(50 * sfX, 40 * sfY, "Huskypup.png", 25 * sfX, 120 * sfY, "image");
             myGamePiece.gravity = 0.10;
             myGamePiece.life = 1;
             myScore = new component("12px", "Verdana", "black", 500, 25, "text");
 			myHighScore = new component("12px", "Verdana", "black", 477, 40, "text");
             myMessage = new component("12px", "Verdana", "black", 175, 235, "text");
+	        myName = new component("12px", "Verdana", "black", 25, 25, "text");
             jumpSound = new sound("bark.mp3");
-            deathSound = new sound("bonk.mp3");
+            deathSound = new sound("editedBonk.wav");
 			
             myGameArea.start();
         }
@@ -121,6 +122,9 @@
             }
         }
 
+        function setName() {
+	    nameQueued = document.getElementById("name").value;
+}
 
         var myGameArea = {
             canvas: document.getElementById("canvas"),
@@ -181,8 +185,9 @@
             this.y = y;
             this.gravity = 0;
             this.gravitySpeed = 0;
-            if (this.type === "image") {
-                ctx.drawImage(huskySprite, this.x, this.y);
+            if (type === "image") {
+                this.image = new Image();
+                this.image.src = color;
             }
             this.update = function () {
                 if (spacePressed) {
@@ -199,7 +204,14 @@
                     ctx.font = this.width * sfX + " " + this.height * sfY;
                     ctx.fillStyle = color;
                     ctx.fillText(this.text, this.x * sfX, this.y * sfY);
-                } else {
+                }
+                else if (type === "image") {
+                    ctx.drawImage(this.image,
+                        this.x,
+                        this.y,
+                        this.width, this.height);
+                }
+                else {
                     ctx.fillStyle = color;
                     ctx.fillRect(this.x, this.y, this.width, this.height);
                 }
@@ -283,9 +295,12 @@
             myScore.update();
 			if (score >= highscore) {
 				highscore = score;
+
 			}
 			myHighScore.text="HIGH SCORE: " + Math.round(highscore/ (67 * sfX));;
 			myHighScore.update();
+	        myName.text = "Playing as: " + name
+	        myName.update();
             myGamePiece.newPos();
             myGamePiece.update();
         }
@@ -322,6 +337,23 @@
 
 
         }
+        function postHS(){
+            if (name == "") {
+                alert("You must enter a name");
+                return;
+            }
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                 alert(this.responseText);
+             }
+        };
+        xhttp.open("POST", "postScore.php", true);
+        var myFormData = new FormData();
+        myFormData.append("name", name);
+        myFormData.append("score", Math.round(highscore/ (67 * sfX)));
+        xhttp.send(myFormData);
+        }
     </script>
 
     <br>
@@ -329,7 +361,10 @@
     <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;">
         Press <b>SPACE</b> to jump! Avoid the obstacles and don't go out of bounds!</p>
 
-    <button class="button button1" onClick="window.location='StartGameRsize.html';">Back</button>
+    <button class="button button1" onClick="window.location='StartGameResize.html';">Back</button>
+    <button class="button button1" onclick="postHS();" >Submit</button>
+    <br> <br> Name: <input type="text" id="name" autocomplete="off">
+    <button onclick="setName()">Enter</button></p>
 </div>
 </body>
 </html>
