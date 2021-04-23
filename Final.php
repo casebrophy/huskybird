@@ -47,10 +47,27 @@
             position: relative;
             left: 210px;
         }
+	.button2{
+          background-color: #FFFFE0;
+          border-radius: 10px;
+          color: black;
+          border: 2px solid black;
+          padding: 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 10px;
+          margin: 2px 1px;
+          position: relative;
+        }
 
         .button1:hover {
             background-color: #EE0000;
             color: white;
+        }
+        .button2:hover {
+          background-color: #3a8a4b;
+      		color: white;
         }
     </style>
 </head>
@@ -373,7 +390,7 @@
     <button class="button button1" onClick="window.location='StartGameResize.html';">Back</button>
     <button class="button button1" onclick="postHS();" >Submit</button>
     <br> <br> Name: <input type="text" id="name" autocomplete="off">
-    <button onclick="setName()">Enter</button></p>
+    <button class="button button2" onclick="setName()">Enter</button></p>
 </div>
 </body>
 </html>
