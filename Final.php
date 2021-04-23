@@ -10,7 +10,7 @@
             left: 100%;
             right: 100%;
             border: 1px solid #d3d3d3;
-            background-color: #f1f1f1
+            background: linear-gradient(to bottom, #ffffcc 0%, #808080 100%);
         }
 
         #gameArea {
