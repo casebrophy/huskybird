@@ -48,6 +48,16 @@ canvas {
 .divSect{   
 	text-align: center;
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: separate;
+  padding: 3px;
+  font-size: 35px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style:normal;
+}
+
 </style>
 </head>
 <body>
@@ -56,8 +66,10 @@ canvas {
 	
 
 <div class="divSect">
-	<?php
-	try {
+	
+<p style = "font-family:Arial, Helvetica, sans-serif;font-size:40px;font-style:normal;"> <b>LEADERBOARD</b> </p>
+<?php
+  try {
  $config = parse_ini_file("db.ini");
  $dbh = new PDO($config['dsn'], $config['username'],$config['password']);
  $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -67,7 +79,7 @@ canvas {
  echo "<TH> Score </TH>";
  echo "</TR>";
 
- foreach ( $dbh->query("SELECT name, score FROM leaderboard ORDER BY score LIMIT 10") as $row ) {
+ foreach ( $dbh->query("SELECT name, score FROM leaderboard ORDER BY score desc LIMIT 10") as $row ) {
 
  echo "<TR>";
  echo "<TD>".$row[0]."</TD>";
@@ -84,7 +96,7 @@ canvas {
  die();
 }
 ?>
-<p style = "font-family:Arial, Helvetica, sans-serif;font-size:16px;font-style:normal;"> <b>LEADERBOARD</b> </p>
+<br>
 <button class="button button1" onClick="window.location='StartGameResize.html';">Go Back</button>
 </div>
 

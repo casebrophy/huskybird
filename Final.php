@@ -301,14 +301,14 @@
                 myObstacles.push(new component(50 * sfX, height * sfY, "black", x, 0));
                 myObstacles.push(new component(30 * sfX, height * sfY, "darkgrey", x, 0));
                 myObstacles.push(new component(15 * sfX, height * sfY, "grey", x, 0));
-                myObstacles.push(new component(90 *sfX , 20*sfY, "lightyellow", x - 10, height));
+                myObstacles.push(new component(90 *sfX , 20 *sfY, "lightyellow", x - 10, sfY * height));
 
 		    
                 myObstacles.push(new component(70 * sfX, x - height - gap * sfY, "yellow", x, sfY * (height + gap)));
                 myObstacles.push(new component(50 * sfX, x - height - gap * sfY, "black", x, sfY * (height + gap)));
                 myObstacles.push(new component(30 * sfX, x - height - gap * sfY, "darkgrey", x, sfY * (height + gap)));
                 myObstacles.push(new component(15 * sfX, x - height - gap * sfY, "grey", x, sfY * (height + gap)));
-                myObstacles.push(new component(90 * sfX, 20*sfY, "lightyellow", x -10 ,  (height + gap)));
+                myObstacles.push(new component(90 * sfX, 20 *sfY, "lightyellow", x -10 , sfY * (height + gap)));
 
                 scoreObstacles.push(new component(70 * sfX, gap * sfY, "#ff000000", x, sfY * height));
             }
